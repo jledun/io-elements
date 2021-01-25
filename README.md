@@ -28,7 +28,7 @@ npm est installé en même temps que node.js.
 
 * Ouvrir une fenêtre du powershell, en mode utilisateur normal, le mode administrateur n'est pas nécessaire.
 * se placer dans le répertoire qui contiendra le projet
-* cloner le dépôt git : `git clone https://machin machine`
+* cloner le dépôt git : `git clone https://github.com/jledun/io-elements.git`
 * aller dans le répertoire cloné : `cd io-elements`
 * installer les dépendances : `npm install`
 * C'est fait :-)
@@ -37,15 +37,15 @@ npm est installé en même temps que node.js.
 
 Editer la liste des éléments dans la feuille de calcul 'Elements' incluse dans le fichier 'Elements.xlsx' : repartir d'une liste vide ou éditer une liste existante.
 
-Quand la liste est complète, il faut mettre à jour la liste des éléments dans la feuille de calcul 'Asservicements' : cette application s'en charge pour vous :-)
+Quand la liste est complète, il faut mettre à jour la liste des éléments dans la feuille de calcul 'Asservissements' : cette application s'en charge pour vous :-)
 
-Dans le powershell, ce placer dans le répertoire contenant l'application ET le fichier 'Elements.xlsx' et entrer la commande `node io-engine.js`.
+Dans le powershell, se placer dans le répertoire contenant l'application ET le fichier 'Elements.xlsx' et entrer la commande `node io-engine.js`.
 
 Accepter la licence et sélectionner le premier choix : "Créer ou mettre à jour la feuille 'Asservissements' et initialiser la feuille 'Cycles' dans le fichier 'Elements.xlsx'".
 
-Après quelques secondes, l'opération se termine, vous pouvez compléter la feuille de calcul 'Asservicements' en saisissant les éléments en aval.
+Après quelques secondes, l'opération se termine, vous pouvez compléter la feuille de calcul 'Asservissements' en saisissant les éléments en aval.
 
-Une fois la feuille de calcul 'Asservicements' complète, dans le powershell, ce placer dans le répertoire contenant l'application ET le fichier 'Elements.xlsx' et entrer la commande `node io-engine.js`.
+Une fois la feuille de calcul 'Asservissements' complète, dans le powershell, se placer dans le répertoire contenant l'application ET le fichier 'Elements.xlsx' et entrer la commande `node io-engine.js`.
 
 Accepter la licence et sélectionner le deuxième choix : "Générer les chemins dans la feuille 'Cycles' de 'Elements.xlsx' et mettre à jour la base de données 'Cycles.mdb'".
 
@@ -57,7 +57,7 @@ Mais c'est tout, rien à faire de plus, passer à l'installation suivante :-)
 
 Editer la liste des éléments dans la feuille de calcul 'Elements' incluse dans le fichier 'Elements.xlsx' pour ajouter ou retirer des éléments dans la liste.
 
-Exécuter io-engine avec le premier choix pour mettre à jour les intitulés des lignes et colonnes de la feuille de calcul 'Asservicements', les données présentes à l'intérieur du tableau ne sont pas modifiées.
+Exécuter io-engine avec le premier choix pour mettre à jour les intitulés des lignes et colonnes de la feuille de calcul 'Asservissements', les données présentes à l'intérieur du tableau ne sont pas modifiées.
 
 Mettre à jour les asservissements entre éléments en fonction des modifications de process intégrées.
 
@@ -71,29 +71,10 @@ Formuler votre demande par email à [j.ledun@iosystems.fr](mailto:j.ledun@iosyst
 
 Copyright 2021 Julien Ledun <j.ledun@iosystems.fr>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-
-including without limitation the rights to use, copy, modify, merge, publish, distribute, 
-
-sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is 
-
-furnished to do so, subject to the following conditions:
-
-
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN 
-
-NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
-
-THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # Contributeurs
 
