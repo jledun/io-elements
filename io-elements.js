@@ -330,9 +330,6 @@ const readAsservissement = () => {
 		load.stop();
 		console.log(chalk.green(`Classeur 'Elements.xlsx' à jour.`));
 		
-		// FIN PROVISOIRE
-		return resolve();
-		
 		console.log(chalk.white("Ouverture de la base de données 'Cycles.mdb'"));
 		const db = ADODB.open(`Provider=Microsoft.Jet.OLEDB.4.0;Data Source=${path.join(".", "Cycles.mdb")};`);
 		if (!db) {
