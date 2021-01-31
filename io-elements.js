@@ -330,6 +330,9 @@ const readAsservissement = () => {
 		load.stop();
 		console.log(chalk.green(`Classeur 'Elements.xlsx' à jour.`));
 		
+		// FIN PROVISOIRE
+		return resolve();
+		
 		console.log(chalk.white("Ouverture de la base de données 'Cycles.mdb'"));
 		const db = ADODB.open(`Provider=Microsoft.Jet.OLEDB.4.0;Data Source=${path.join(".", "Cycles.mdb")};`);
 		if (!db) {
@@ -381,7 +384,7 @@ const getAvalElements = (source, elements, feuille) => {
 		const cellValue = feuille.getCell(getColumnRef(elem.row).concat(source.row)).value;
 		if (typeof cellValue === "number") {
 			tmp.push({
-				direction: cellValue + elem.numero,
+				direction: cellValue + source.numero,
 				element: Object.assign({}, elem)
 			});
 		}
@@ -390,24 +393,36 @@ const getAvalElements = (source, elements, feuille) => {
 }
 
 const explorer = (chemins, lifo, chemin, elements, feuille) => {
+	
+	// destination atteinte
 	if (chemin.length > 1 && chemin[chemin.length - 1].isDestination) {
-		// console.log(`Destination atteinte.`);
-		chemins.push(chemin);
+		chemin[chemin.length - 1].direction = chemin[chemin.length - 1].numero;
+		chemins.push([].concat(chemin));
 		return;
 	}
+	
+	// lecture des éléments aval
 	const aval = getAvalElements(chemin[chemin.length - 1], elements, feuille);
 	if (aval.length > 0) {
-		aval.forEach(elementAval => {
+		for (let elementAval of aval) {
 			// recherche d'une double utilisation d'une élément dans un chemin
 			if (chemin.findIndex(elementChemin => elementChemin.numero === elementAval.element.numero) < 0) {
-				chemin[chemin.length - 1].direction = elementAval.direction;
-				lifo.push(chemin.concat(elementAval.element));
-			// }else{
-				// console.log(`Elément déjà utilisé dans le chemin, arrêt de la poursuite de ce chemin...`);
+				// copie du chemin
+				const tmp = [];
+				for (let elm of chemin) {
+					tmp.push(Object.assign({}, elm));
+				}
+				
+				// affectation de la direction de l'élément
+				tmp[tmp.length - 1].direction = elementAval.direction;
+				
+				// ajout de l'élément aval
+				tmp.push(elementAval.element);
+				
+				// copie chemin temporaire dans la lifo pour recherche du chemin suivant au prochain batch
+				lifo.push([].concat(tmp));
 			}
-		});
-	// }else{
-		// console.log(`Pas d'élément aval, arrêt de la poursuite...`);
+		}
 	}
 }
 
