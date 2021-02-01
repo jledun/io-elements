@@ -33,6 +33,40 @@ npm est installé en même temps que node.js.
 * installer les dépendances : `npm install`
 * C'est fait :-)
 
+# Configuration des fichiers à ne pas enregistrer sur le dépot
+
+Editer le fichier `\chemin\vers\le\projet\.git\info\exclude` et ajouter à la fin du fichier :
+
+```
+*.xlsx
+*.mdb
+*.ldb
+node_modules
+files
+```
+
+Ainsi, les fichiers Excel et Access ne seront jamais indexés dans le dépot git.
+
+# Mise à jour du code suite à une mise à jour du dépot git
+
+## Savoir si le code local a été modifié ou non
+
+* Ouvrir une fenêtre du powershell, en mode utilisateur normal, le mode administrateur n'est pas nécessaire.
+* se placer dans le répertoire qui contient le projet
+* exécuter la commande `git status`
+* git affiche la liste des fichiers qui ont été modifiés ou en attente d'ajout à l'index ou rien si rien n'a été modifié.
+
+## Le code local n'a pas été modifié
+
+* Ouvrir une fenêtre du powershell, en mode utilisateur normal, le mode administrateur n'est pas nécessaire.
+* se placer dans le répertoire qui contient le projet
+* mettre à jour le code depuis le dépot git : `git pull`
+* c'est fait :-)
+
+## Le code local a été modifié
+
+Ce document n'est pas un tuto pour utiliser git, il y en a plein librement disponibles sur Internet.
+
 # Comment ça marche ?
 
 Editer la liste des éléments dans la feuille de calcul 'Elements' incluse dans le fichier 'Elements.xlsx' : repartir d'une liste vide ou éditer une liste existante.

@@ -54,10 +54,35 @@ const getColumnRef = (col) => {
 	return cols[col - 1];
 }
 
+const readElementsFromElementSheet = (elementsSheet) => {
+	// parcours de chaque ligne
+	let load = loading({
+		"text": "Lecture de la liste des éléments : numéro, désignation, type, nature origine et/ou destination...",
+		"color": "white",
+		"interval": 100,
+		"frames": ["◰", "◳", "◲", "◱"]
+	}).start();
+	let elements = [];
+	for (let i = 3; i < 219; i++) {
+		elements.push({
+			row: i,
+			numero: elementsSheet.getCell('A'.concat(i)).value,
+			mnemo: elementsSheet.getCell('B'.concat(i)).value,
+			type: elementsSheet.getCell('C'.concat(i)).value,
+			origine: elementsSheet.getCell('D'.concat(i)).value,
+			destination: elementsSheet.getCell('E'.concat(i)).value,
+			isOrigine: elementsSheet.getCell('D'.concat(i)).value != null,
+			isDestination: elementsSheet.getCell('E'.concat(i)).value != null
+		});
+	}
+	load.stop();
+	console.log(chalk.green("Liste des éléments lue."));
+	return elements;
+}
+
 const createAsservissementSheet = () => {
 	return new Promise(async (resolve, reject) => {
 		const workbook = new ExcelJS.Workbook();
-		let elements = [];
 		
 		// Lecture fichier Excel "Elements.xlsx"
 		let load = loading({
@@ -83,23 +108,8 @@ const createAsservissementSheet = () => {
 		}
 		console.log(chalk.green("Feuille de calcul 'Elements' trouvée"));
 
-		// parcours de chaque ligne
-		load.text = "Parcours de la liste des éléments...";
-		load.start();
-		for (let i = 3; i < 219; i++) {
-			elements.push({
-				row: i,
-				numero: elemSheet.getCell('A'.concat(i)).value,
-				mnemo: elemSheet.getCell('B'.concat(i)).value,
-				type: elemSheet.getCell('C'.concat(i)).value,
-				origine: elemSheet.getCell('D'.concat(i)).value,
-				destination: elemSheet.getCell('E'.concat(i)).value,
-				isOrigine: elemSheet.getCell('D'.concat(i)).value != null,
-				isDestination: elemSheet.getCell('E'.concat(i)).value != null
-			});
-		}
-		load.stop();
-		console.log(chalk.green("Liste des éléments lue."));
+		// Lecture de la liste des éléments dans la feuille de calcul 'Elements'
+		let elements = readElementsFromElementSheet(elemSheet);
 		
 		// génération de la feuille "Asservissements"
 		console.log(chalk.white("Recherche de la feuille de calcul 'Asservissements'"));
@@ -157,7 +167,6 @@ const createAsservissementSheet = () => {
 const readAsservissement = () => {
 	return new Promise(async (resolve, reject) => {
 		const workbook = new ExcelJS.Workbook();
-		let elements = [];
 		
 		// Lecture fichier Excel "Elements.xlsx"
 		let load = loading({
@@ -184,22 +193,7 @@ const readAsservissement = () => {
 		console.log(chalk.green("Feuille de calcul 'Elements' trouvée"));
 
 		// lecture de la liste des éléments
-		load.text = `Lecture de la liste des éléments : numéro, désignation, type, nature origine et/ou destination`;
-		load.start();
-		for (let i = 3; i < 219; i++) {
-			elements.push({
-				row: i,
-				numero: elemSheet.getCell('A'.concat(i)).value,
-				mnemo: elemSheet.getCell('B'.concat(i)).value,
-				type: elemSheet.getCell('C'.concat(i)).value,
-				origine: elemSheet.getCell('D'.concat(i)).value,
-				destination: elemSheet.getCell('E'.concat(i)).value,
-				isOrigine: elemSheet.getCell('D'.concat(i)).value != null,
-				isDestination: elemSheet.getCell('E'.concat(i)).value != null
-			});
-		}
-		load.stop();
-		console.log(chalk.green("Liste des éléments lue."));
+		let elements = readElementsFromElementSheet(elemSheet);
 
 		// Lecture de la feuille "ASSERVISSEMENTS"
 		console.log(chalk.white(`Lecture de la feuille de calcul 'Asservissements'`));
@@ -284,17 +278,22 @@ const readAsservissement = () => {
 			for (let i = 0; i < 80; i++) {
 				insertString.push((chemin[i] && chemin[i].direction) ? chemin[i].direction.toString() : "0" );
 			}
-			// colonnes Départ, Cycle_Simple, Cycle_Complet, Destination
+			// colonne Départ
 			insertString.push(chemin[0].mnemo);
+			// colonne Cycle_simple
 			insertString.push(
 				chemin.filter(elem => TYPES_ELEMENTS_SIMPLE.indexOf(elem.type) >= 0)
+				.filter((elem, i, ar) => (i > 0 && i < ar.length -1))
 				.map(elem => elem.mnemo)
 				.join(" - ")
 			);
+			// colonne Cycle_complet
 			insertString.push(
-				chemin.map(elem => elem.mnemo)
+				chemin.filter((elem, i, ar) => (i > 0 && i < ar.length -1))
+				.map(elem => elem.mnemo)
 				.join(" - ")
 			);
+			// colonne destination
 			insertString.push(chemin[chemin.length - 1].mnemo);
 			return insertString; // "(\"" + insertString.join("\", \"") + "\")";
 		});
