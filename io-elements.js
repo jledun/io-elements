@@ -401,8 +401,9 @@ const explorer = (chemins, lifo, chemin, elements, feuille) => {
 	const aval = getAvalElements(chemin[chemin.length - 1], elements, feuille);
 	if (aval.length > 0) {
 		for (let elementAval of aval) {
-			// recherche d'une double utilisation d'une élément dans un chemin
-			if (chemin.findIndex(elementChemin => elementChemin.numero === elementAval.element.numero) < 0) {
+			// recherche d'une double utilisation d'une élément dans un chemin sauf si l'élément en double est à l'origine, au tour suivant, cet élément en double devra forcément être une destination
+			const indexDoublon = chemin.findIndex((elementChemin, i) => elementChemin.numero === elementAval.element.numero && i > 0);
+			if (indexDoublon < 0) {
 				// copie du chemin
 				const tmp = [];
 				for (let elm of chemin) {
