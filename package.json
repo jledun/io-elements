@@ -4,16 +4,16 @@
   "description": "Un outil de gestion d'éléments électrotechniques et électromécaniques.",
   "main": "io-elements.js",
   "scripts": {
-	"start": "node io-elements.js",
+    "start": "node io-elements.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Julien Ledun <j.ledun@iosystems.fr>",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.2",
     "enquirer": "^2.3.6",
-    "exceljs": "^4.2.0",
-    "figlet": "^1.5.0",
+    "exceljs": "^4.3.0",
+    "figlet": "^1.5.2",
     "loading-cli": "^1.1.0",
     "node-adodb": "^5.0.3"
   }
