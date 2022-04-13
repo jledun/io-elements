@@ -588,34 +588,56 @@ const readAsservissement = () => {
 					result[19].value = 1;
 					
 					// traitement champs entre 900 et 912
+					let t = {};
 					switch (tmpChemin.length) {
 						case 1:
 							// cas particulier : 1 seul élément dans le chemin : selon paramétrage
 							// on insère l'élément dans le premier emplacement utilisé ???
+							// sauf si élément = élévateur : dans le premier emplacement élévateur utilisé ???
+							t = tmpChemin.shift();
 							for (let i = 0; i <= 12; i++) {
 								if (result[i].used) {
-									result[i].value = tmpChemin.shift().numero;
+									if (t.type === TYPES_ELEMENTS_COMPLET[5] && !result[i].elevateur) continue;
+									result[i].value = t.numero;
 									break;
 								}
 							}
 							break;
+
 						case 2:
 							// cas particulier : 2 éléments dans le chemin : le premier en premier et de second en dernier
 							// on insère l'élément dans le premier emplacement utilisé ???
-							for (let i = 0; i < 12; i++) {
+							// sauf si élément = élévateur : dans le premier emplacement élévateur utilisé ???
+							t = tmpChemin.shift();
+							let nextI = 0;
+							for (let i = 0; i <= 12; i++) {
 								if (result[i].used) {
-									result[i].value = tmpChemin.shift().numero;
+									if (t.type === TYPES_ELEMENTS_COMPLET[5] && !result[i].elevateur) continue;
+									result[i].value = t.numero;
+									nextI = i + 1;
 									break;
 								}
 							}
-							// on insère l'élément dans le dernier emplacement utilisé ???
-							for (let i = 12; i > 0; i--) {
-								if (result[i].used) {
-									result[i].value = tmpChemin.pop().numero;
-									break;
+							// on insère l'élément dans le dernier emplacement utilisé ??? 
+							// sauf si élément est un élévateur : dans le premier emplacement élévateur utilisé ???
+							t = tmpChemin.pop();
+							if (t.type === TYPES_ELEMENTS_COMPLET[5]) {
+								for (let i = nextI; i <= 12; i++) {
+									if (result[i].used && result[i].elevateur) {
+										result[i].value = t.numero;
+										break;
+									}
+								}
+							}else{
+								for (let i = 12; i > 0; i--) {
+									if (result[i].used) {
+										result[i].value = t.numero;
+										break;
+									}
 								}
 							}
 							break;
+
 						default:
 							// cas général : tous les éléments restant dans le chemin doivent être organisés selon les paramètres
 							for (let i = 0; i <= 12; i++) {
@@ -632,10 +654,14 @@ const readAsservissement = () => {
 									}
 								}
 							}
-							// déplacement du dernier élément avant destination en MW912 si nécessaire
+							// déplacement du dernier élément avant destination en MW912 si nécessaire et sauf si dernier élément est un élévateur qui doit rester à la place qui lui a été attribuée
 							if (result[12].used && result[12].value <= 0) {
 								for (let i = 12; i > 0; i--) {
 									if (result[i].value > 0) {
+										// recherche dans le chemin du type d'élément détecté
+										const indexChemin = chemin.findIndex(chm => chm.numero === result[i].value);
+										// et on annule l'opération si le dernier élément du chemin est un élévateur
+										if (indexChemin >= 0 && chemin[indexChemin].type === TYPES_ELEMENTS_COMPLET[5]) break;
 										result[12].value = result[i].value;
 										result[i].value = 0;
 										break;
