@@ -35,7 +35,7 @@ npm est installé en même temps que node.js.
 
 # Configuration des fichiers à ne pas enregistrer sur le dépot
 
-Editer le fichier `\chemin\vers\le\projet\.git\info\exclude` et ajouter à la fin du fichier :
+Editer le fichier `\chemin\vers\le\projet\.gitignore` et ajouter à la fin du fichier :
 
 ```
 *.xlsx
