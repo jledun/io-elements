@@ -1,5 +1,6 @@
 *.mdb
 *.xlsx
+*.xlsx#
 *.xls
 node_modules
 

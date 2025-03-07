@@ -486,10 +486,14 @@ const readAsservissement = () => {
 		
 		console.log(chalk.white(`Sélection et contrôle des éléments d'origines...`));
 		let origines = elements.filter(elem => elem.isOrigine);
-		try{
-			origines = await readMW900ParamSheet(workbook, origines);
-		}catch(e){
-			return reject(e);
+		switch(spvVersion) {
+			case 2:
+				try{
+					origines = await readMW900ParamSheet(workbook, origines);
+				}catch(e){
+					return reject(e);
+				}
+				break;
 		}
 		if (origines.length <= 0) {
 			return reject(new Error(`Aucun emplacement d'origine n'a été saisi, abandon.`));
